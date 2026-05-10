@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>💘 13 Questions · Gina & Charles</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #F6FAF2;
+    --card:     #FFFFFF;
+    --ink:      #2C3E2D;
+    --mid:      #6B8F5E;
+    --deep:     #3A6030;
+    --light:    #C8D8A8;
+    --pale:     #E8F0D8;
+    --muted:    #8EAB85;
+    --tag-bg:   #F0F7E8;
+    --badge-bg: #D4E8C2;
+  }
+
+  body {
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .bg-blob {
+    position: fixed; border-radius: 50%; filter: blur(100px);
+    opacity: 0.18; pointer-events: none; z-index: 0;
+    animation: float 10s ease-in-out infinite;
+  }
+  .blob1 { width: 480px; height: 480px; background: #A8C890; top: -140px; right: -120px; animation-delay: 0s; }
+  .blob2 { width: 340px; height: 340px; background: #C8D8A8; bottom: 60px; left: -100px; animation-delay: 3.5s; }
+  .blob3 { width: 280px; height: 280px; background: #6B8F5E; top: 42%; left: 55%; animation-delay: 1.8s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-30px) scale(1.04); }
+  }
+
+  .wrapper {
+    position: relative; z-index: 1;
+    max-width: 680px; margin: 0 auto; padding: 60px 24px 90px;
+  }
+
+  .header {
+    text-align: center; margin-bottom: 52px;
+    animation: slideDown 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .badge {
+    display: inline-block; background: var(--badge-bg); color: var(--deep);
+    font-size: 11px; font-weight: 700; letter-spacing: 0.13em;
+    text-transform: uppercase; padding: 6px 18px; border-radius: 6px;
+    margin-bottom: 24px;
+  }
+
+  .title-lockup { margin-bottom: 18px; }
+
+  .title-eyebrow {
+    font-family: 'DM Sans', sans-serif; font-size: clamp(13px, 2.5vw, 16px);
+    font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); display: block; margin-bottom: 6px;
+  }
+
+  .title-main {
+    font-family: 'Fraunces', serif; font-size: clamp(48px, 11vw, 82px);
+    font-weight: 900; line-height: 0.9; letter-spacing: -0.03em; display: block;
+  }
+  .title-main .num { color: var(--mid); font-style: italic; }
+  .title-main .qs  { color: var(--ink); }
+
+  .title-tagline {
+    font-family: 'Fraunces', serif; font-size: clamp(16px, 3.5vw, 22px);
+    font-weight: 400; font-style: italic; color: var(--muted);
+    display: block; margin-top: 10px; line-height: 1.4;
+  }
+  .title-tagline em { color: var(--deep); font-style: normal; font-weight: 700; }
+
+  .subtitle {
+    font-size: 15px; color: var(--muted); max-width: 400px;
+    margin: 18px auto 0; line-height: 1.65;
+  }
+
+  .page-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+    position: relative;
+  }
+
+  /* ── Vertical progress sidebar ── */
+  .progress-sidebar {
+    position: sticky;
+    top: 40px;
+    width: 48px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    animation: fadeIn 0.5s 0.4s both;
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .progress-track-v {
+    width: 6px;
+    height: 320px;
+    background: var(--pale);
+    border-radius: 100px;
+    overflow: hidden;
+    position: relative;
+  }
+  .progress-fill-v {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(180deg, var(--mid), var(--deep));
+    border-radius: 100px;
+    transition: height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    height: 0%;
+  }
+
+  .progress-pct-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--mid); text-align: center; line-height: 1.3;
+  }
+
+  /* ── Form column ── */
+  .form-col { flex: 1; min-width: 0; }
+
+  @media (max-width: 600px) {
+    .page-layout { flex-direction: column; }
+    .progress-sidebar { position: relative; top: 0; width: 100%; flex-direction: row; align-items: center; height: auto; }
+    .progress-track-v { width: 100%; height: 6px; }
+    .progress-fill-v { top: 0; left: 0; width: 0%; height: 100%; background: linear-gradient(90deg, var(--mid), var(--deep)); transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  }
+
+  .card {
+    background: var(--card); border-radius: 16px; padding: 28px 32px;
+    margin-bottom: 16px; border-left: 4px solid var(--mid);
+    box-shadow: 0 2px 16px rgba(44, 62, 45, 0.07);
+    transition: box-shadow 0.2s, border-left-color 0.2s;
+    animation: cardIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  .card:hover { box-shadow: 0 6px 28px rgba(44, 62, 45, 0.12); border-left-color: var(--deep); }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .card:nth-child(1){animation-delay:.05s}.card:nth-child(2){animation-delay:.10s}
+  .card:nth-child(3){animation-delay:.15s}.card:nth-child(4){animation-delay:.20s}
+  .card:nth-child(5){animation-delay:.25s}.card:nth-child(6){animation-delay:.30s}
+  .card:nth-child(7){animation-delay:.35s}.card:nth-child(8){animation-delay:.40s}
+  .card:nth-child(9){animation-delay:.45s}.card:nth-child(10){animation-delay:.50s}
+  .card:nth-child(11){animation-delay:.55s}.card:nth-child(12){animation-delay:.60s}
+  .card:nth-child(13){animation-delay:.65s}
+
+  .card-num {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.14em;
+    color: var(--mid); margin-bottom: 8px; display: block;
+  }
+
+  .q-label {
+    font-family: 'Fraunces', serif; font-size: 19px; font-weight: 700;
+    margin-bottom: 4px; color: var(--ink); display: block;
+  }
+  .q-hint { font-size: 13px; color: var(--muted); margin-bottom: 14px; font-style: italic; }
+
+  input[type="text"], input[type="number"], select, textarea {
+    width: 100%; background: var(--tag-bg); border: 1.5px solid var(--light);
+    border-radius: 10px; padding: 13px 17px;
+    font-family: 'DM Sans', sans-serif; font-size: 15px;
+    color: var(--ink); outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--mid); background: white;
+    box-shadow: 0 0 0 3px rgba(107, 143, 94, 0.15);
+  }
+  textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 480px) { .two-col { grid-template-columns: 1fr; } }
+
+  .pill-group { display: flex; flex-wrap: wrap; gap: 9px; }
+  .pill-group input { display: none; }
+  .pill-group label {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+    padding: 9px 17px; border-radius: 8px;
+    border: 1.5px solid var(--light); background: var(--tag-bg); color: var(--mid);
+    cursor: pointer; transition: all 0.16s ease;
+    user-select: none; display: block; margin: 0;
+  }
+  .pill-group input:checked + label {
+    background: var(--deep); border-color: var(--deep); color: white;
+    box-shadow: 0 3px 10px rgba(58, 96, 48, 0.3);
+  }
+  .pill-group label:hover { border-color: var(--mid); background: white; }
+
+  .emoji-grid { display: flex; flex-wrap: wrap; gap: 9px; }
+  .emoji-grid input { display: none; }
+  .emoji-card {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4px; width: 82px; min-height: 74px;
+    border: 1.5px solid var(--light); border-radius: 14px;
+    background: var(--tag-bg); cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 12px;
+    font-weight: 500; color: var(--mid);
+    transition: all 0.16s ease; text-align: center;
+    padding: 10px 6px; margin: 0; line-height: 1.3;
+  }
+  .emoji-card .ec-icon { font-size: 24px; line-height: 1; }
+  .emoji-grid input:checked + .emoji-card {
+    background: var(--deep); border-color: var(--deep); color: white;
+    box-shadow: 0 4px 14px rgba(58, 96, 48, 0.3);
+  }
+  .emoji-card:hover { border-color: var(--mid); background: white; }
+
+  .slider-wrap { position: relative; }
+  input[type="range"] {
+    -webkit-appearance: none; width: 100%; height: 6px;
+    background: var(--pale); border-radius: 100px;
+    border: none; outline: none; padding: 0; cursor: pointer;
+    box-shadow: none; transform: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%;
+    background: var(--mid); border: 2.5px solid var(--deep);
+    cursor: pointer; box-shadow: 0 2px 8px rgba(58,96,48,0.3); transition: transform 0.2s;
+  }
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+  .slider-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 8px; }
+  .slider-val {
+    display: inline-block; background: var(--deep); color: white;
+    font-weight: 700; font-size: 12px; padding: 4px 14px;
+    border-radius: 100px; margin-top: 10px;
+  }
+
+  .char-wrap { position: relative; }
+  .char-count { position: absolute; bottom: 10px; right: 14px; font-size: 11px; color: #bbb; pointer-events: none; }
+
+  .other-reveal { display: none; margin-top: 12px; }
+  .other-reveal.show { display: block; }
+
+  .submit-wrap { text-align: center; margin-top: 16px; animation: fadeIn 0.5s 1s both; }
+  .btn-submit {
+    font-family: 'Fraunces', serif; font-size: 20px; font-weight: 900; font-style: italic;
+    padding: 16px 52px; background: var(--deep); color: white;
+    border: none; border-radius: 12px; cursor: pointer;
+    box-shadow: 0 6px 24px rgba(58, 96, 48, 0.4);
+    transition: all 0.2s ease; display: inline-block;
+  }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(58, 96, 48, 0.5); background: var(--ink); }
+  .btn-submit:active { transform: translateY(1px); box-shadow: 0 2px 8px rgba(58, 96, 48, 0.3); }
+  .fine-print { font-size: 12px; color: #AAA; margin-top: 14px; font-style: italic; }
+
+  .success-screen { display: none; text-align: center; padding: 80px 24px; animation: bounceIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both; }
+  @keyframes bounceIn { from { opacity:0; transform:scale(0.5); } to { opacity:1; transform:scale(1); } }
+  .success-emoji { font-size: 80px; display: block; margin-bottom: 20px; animation: spinIn 0.8s cubic-bezier(0.34,1.56,0.64,1); }
+  @keyframes spinIn { from { transform:rotate(-30deg) scale(0); } to { transform:rotate(0deg) scale(1); } }
+  .success-title { font-family:'Fraunces',serif; font-size:44px; font-weight:900; color:var(--deep); margin-bottom:12px; }
+  .success-sub { font-size:17px; color:var(--muted); line-height:1.7; }
+
+  .heart { position:fixed; pointer-events:none; z-index:999; animation:riseUp 2.5s ease-in forwards; }
+  @keyframes riseUp { 0%{opacity:1;transform:translateY(0) rotate(0deg);} 100%{opacity:0;transform:translateY(-320px) rotate(25deg) scale(0.4);} }
+
+  /* ── Mode toggle ── */
+  .mode-toggle {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0; margin-bottom: 36px;
+    background: var(--pale); border-radius: 12px; padding: 4px;
+    width: fit-content; margin-left: auto; margin-right: auto;
+  }
+  .mode-btn {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+    padding: 10px 24px; border-radius: 9px; border: none; cursor: pointer;
+    background: transparent; color: var(--muted);
+    transition: all 0.2s ease; white-space: nowrap;
+  }
+  .mode-btn.active {
+    background: var(--deep); color: white;
+    box-shadow: 0 2px 10px rgba(58, 96, 48, 0.3);
+  }
+  .mode-btn:not(.active):hover { color: var(--ink); }
+
+  .phone-error {
+    font-size: 12px; color: #c0392b; margin-top: 6px;
+    display: none; font-style: italic;
+  }
+  .phone-error.show { display: block; }
+  input.invalid { border-color: #c0392b !important; box-shadow: 0 0 0 3px rgba(192,57,43,0.12) !important; }
+    background: var(--pale); border-left: 3px solid var(--mid);
+    border-radius: 8px; padding: 12px 16px;
+    font-size: 13px; font-weight: 500; color: var(--deep); margin-top: 14px;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-blob blob1"></div>
+<div class="bg-blob blob2"></div>
+<div class="bg-blob blob3"></div>
+
+<div class="wrapper">
+
+  <div class="header">
+    <div class="title-lockup">
+      <span class="title-main">
+        <span class="num">13</span><br/>
+        <span class="qs">Questions.</span>
+      </span>
+      <span class="title-tagline" id="headerTagline">to help you date like you're <em>21</em> again.</span>
+    </div>
+    <p class="subtitle" id="headerSubtitle">We're tired of watching our friends be single. So we're doing something about it. 💅</p>
+  </div>
+
+  <!-- Mode toggle -->
+  <div class="mode-toggle">
+    <button type="button" class="mode-btn active" id="btnDating" onclick="setMode('dating')">💘 Find a partner</button>
+    <button type="button" class="mode-btn" id="btnFriends" onclick="setMode('friends')">🤝 Find a friend</button>
+  </div>
+
+  <form id="matchForm">
+    <div class="page-layout">
+
+      <!-- Vertical progress sidebar -->
+      <div class="progress-sidebar">
+        <div class="progress-track-v">
+          <div class="progress-fill-v" id="progressFill"></div>
+        </div>
+        <span class="progress-pct-label" id="progressPct">0%</span>
+      </div>
+
+      <!-- Cards column -->
+      <div class="form-col">
+
+    <!-- 1. Basics -->
+    <div class="card">
+      <div class="card-num">1</div>
+      <span class="q-label">The basics 👋</span>
+      <div style="margin-top: 14px;" class="two-col">
+        <input type="text" name="name" placeholder="First name" required />
+        <input type="number" name="age" placeholder="Age" min="18" max="99" required />
+      </div>
+    </div>
+
+    <!-- 2. Vibe -->
+    <div class="card">
+      <div class="card-num">2</div>
+      <span class="q-label">Choose everything that clicks ✨</span>
+      <div style="margin-top: 14px;" class="pill-group">
+        <input type="checkbox" name="vibe" id="v1" value="Homebody"><label for="v1">🏠 Homebody</label>
+        <input type="checkbox" name="vibe" id="v2" value="Adventurous"><label for="v2">🌍 Adventurous</label>
+        <input type="checkbox" name="vibe" id="v3" value="Work hard"><label for="v3">💼 Work hard</label>
+        <input type="checkbox" name="vibe" id="v4" value="Play hard"><label for="v4">🎉 Play hard</label>
+        <input type="checkbox" name="vibe" id="v5" value="Creative"><label for="v5">🎨 Creative</label>
+        <input type="checkbox" name="vibe" id="v6" value="Bookworm"><label for="v6">📚 Bookworm</label>
+        <input type="checkbox" name="vibe" id="v7" value="Foodie"><label for="v7">🍜 Foodie</label>
+        <input type="checkbox" name="vibe" id="v8" value="Athletic"><label for="v8">🏃 Athletic</label>
+        <input type="checkbox" name="vibe" id="v9" value="Social butterfly"><label for="v9">🦋 Social butterfly</label>
+        <input type="checkbox" name="vibe" id="v10" value="Laid back"><label for="v10">😌 Laid back</label>
+        <input type="checkbox" name="vibe" id="v11" value="Outdoorsy"><label for="v11">🌲 Outdoorsy</label>
+        <input type="checkbox" name="vibe" id="v12" value="Night owl"><label for="v12">🦉 Night owl</label>
+        <input type="checkbox" name="vibe" id="v13" value="Early bird"><label for="v13">🌅 Early bird</label>
+        <input type="checkbox" name="vibe" id="v14" value="Always traveling"><label for="v14">✈️ Always traveling</label>
+        <input type="checkbox" name="vibe" id="v15" value="Wellness guru"><label for="v15">🧘 Wellness guru</label>
+        <input type="checkbox" name="vibe" id="v16" value="Brunch is a lifestyle"><label for="v16">🥂 Brunch is a lifestyle</label>
+        <input type="checkbox" name="vibe" id="v17" value="Spontaneous"><label for="v17">⚡ Spontaneous</label>
+        <input type="checkbox" name="vibe" id="v18" value="Planner"><label for="v18">🗓️ Planner</label>
+        <input type="checkbox" name="vibe" id="v19" value="Dog person"><label for="v19">🐶 Dog person</label>
+        <input type="checkbox" name="vibe" id="v20" value="Cat person"><label for="v20">🐱 Cat person</label>
+        <input type="checkbox" name="vibe" id="v21" value="Hopeless romantic"><label for="v21">💐 Hopeless romantic</label>
+        <input type="checkbox" name="vibe" id="v22" value="Realist"><label for="v22">🔍 Realist</label>
+        <input type="checkbox" name="vibe" id="v23" value="Introvert"><label for="v23">🔋 Introvert</label>
+        <input type="checkbox" name="vibe" id="v24" value="Extrovert"><label for="v24">🎤 Extrovert</label>
+        <input type="checkbox" name="vibe" id="v25" value="Oversharer"><label for="v25">📢 Oversharer</label>
+        <input type="checkbox" name="vibe" id="v26" value="Very private"><label for="v26">🤫 Very private</label>
+        <input type="checkbox" name="vibe" id="v27" value="Financially responsible"><label for="v27">💸 Financially responsible</label>
+        <input type="checkbox" name="vibe" id="v28" value="YOLO spender"><label for="v28">🛍️ YOLO spender</label>
+        <input type="checkbox" name="vibe" id="v29" value="Music festivals"><label for="v29">🎪 Music festivals</label>
+        <input type="checkbox" name="vibe" id="v30" value="Snow sports"><label for="v30">⛷️ Snow sports</label>
+      </div>
+    </div>
+
+    <!-- 3. Goal -->
+    <div class="card" id="cardGoal">
+      <div class="card-num">3</div>
+      <span class="q-label" id="goalLabel">What's your relationship goal? 🎯</span>
+      <p class="q-hint">Be real with me here</p>
+      <div class="pill-group" id="goalPills">
+        <!-- dating options -->
+        <div class="mode-options dating-only">
+          <div class="pill-group">
+            <input type="radio" name="rel_goal" id="rg1" value="Just meeting new people"><label for="rg1">👋 Just meeting new people</label>
+            <input type="radio" name="rel_goal" id="rg2" value="Might be in it for the long term"><label for="rg2">💍 In it for the long term</label>
+            <input type="radio" name="rel_goal" id="rg3" value="Not sure yet"><label for="rg3">🤷 Not sure yet</label>
+            <input type="radio" name="rel_goal" id="rg4" value="Casual"><label for="rg4">🌊 Casual</label>
+            <input type="radio" name="rel_goal" id="rg5" value="Open to anything"><label for="rg5">🌀 Open to anything</label>
+            <input type="radio" name="rel_goal" id="rg7" value="Ready to settle down"><label for="rg7">🏡 Ready to settle down</label>
+            <input type="radio" name="rel_goal" id="rg9" value="Finding myself first"><label for="rg9">🔮 Finding myself first</label>
+          </div>
+        </div>
+        <!-- friends options -->
+        <div class="mode-options friends-only" style="display:none;">
+          <div class="pill-group">
+            <input type="radio" name="friend_goal" id="fg1" value="A regular hangout buddy"><label for="fg1">🎉 A regular hangout buddy</label>
+            <input type="radio" name="friend_goal" id="fg2" value="A gym or activity partner"><label for="fg2">🏃 Gym / activity partner</label>
+            <input type="radio" name="friend_goal" id="fg3" value="Someone to explore the city with"><label for="fg3">🗺️ City explorer</label>
+            <input type="radio" name="friend_goal" id="fg4" value="A deeper friendship"><label for="fg4">💚 A deeper friendship</label>
+            <input type="radio" name="friend_goal" id="fg5" value="Open to anything"><label for="fg5">🌀 Open to anything</label>
+            <input type="radio" name="friend_goal" id="fg6" value="Just expanding my circle"><label for="fg6">🌐 Expanding my circle</label>
+            <input type="radio" name="friend_goal" id="fg7" value="Someone to vent to"><label for="fg7">💬 Someone to vent to</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Recent weekends -->
+    <div class="card">
+      <div class="card-num">4</div>
+      <span class="q-label">What did you do your last 2–3 weekends? 🗓️</span>
+      <p class="q-hint">This tells me more than any bio ever could</p>
+      <div class="char-wrap">
+        <textarea name="recent_weekends" id="weekendsTa" placeholder="e.g. Went to a winery in Napa, hosted a dinner party, did absolutely nothing and it was perfect..." maxlength="400"></textarea>
+        <span class="char-count" id="weekendsCount">0/400</span>
+      </div>
+    </div>
+
+    <!-- 5. Ideal first date / hangout -->
+    <div class="card">
+      <div class="card-num">5</div>
+      <span class="q-label" id="firstDateLabel">Ideal first date 💫</span>
+      <p class="q-hint">Pick up to 3 — what sounds most like you</p>
+      <div class="emoji-grid">
+        <!-- Food & drink -->
+        <input type="checkbox" name="first_date" id="fd1" value="Dinner out">
+        <label for="fd1" class="emoji-card"><span class="ec-icon">🍽️</span>Dinner out</label>
+        <input type="checkbox" name="first_date" id="fd2" value="Brunch">
+        <label for="fd2" class="emoji-card"><span class="ec-icon">🥞</span>Brunch</label>
+        <input type="checkbox" name="first_date" id="fd3" value="Drinks & bar hop">
+        <label for="fd3" class="emoji-card"><span class="ec-icon">🍸</span>Drinks</label>
+        <input type="checkbox" name="first_date" id="fd4" value="Coffee & a walk">
+        <label for="fd4" class="emoji-card"><span class="ec-icon">☕</span>Coffee walk</label>
+        <input type="checkbox" name="first_date" id="fd5" value="Pastry run">
+        <label for="fd5" class="emoji-card"><span class="ec-icon">🥐</span>Pastry run</label>
+        <input type="checkbox" name="first_date" id="fd6" value="Rooftop or wine bar">
+        <label for="fd6" class="emoji-card"><span class="ec-icon">🌆</span>Rooftop</label>
+        <!-- Outdoors & active -->
+        <input type="checkbox" name="first_date" id="fd7" value="Hike">
+        <label for="fd7" class="emoji-card"><span class="ec-icon">🥾</span>Hike</label>
+        <input type="checkbox" name="first_date" id="fd8" value="Picnic in the park">
+        <label for="fd8" class="emoji-card"><span class="ec-icon">🌿</span>Picnic</label>
+        <input type="checkbox" name="first_date" id="fd9" value="Sunset viewing">
+        <label for="fd9" class="emoji-card"><span class="ec-icon">🌅</span>Sunset viewing</label>
+        <input type="checkbox" name="first_date" id="fd10" value="Farmers market">
+        <label for="fd10" class="emoji-card"><span class="ec-icon">🧺</span>Market</label>
+        <input type="checkbox" name="first_date" id="fd11" value="Mini golf or bowling">
+        <label for="fd11" class="emoji-card"><span class="ec-icon">🎳</span>Mini golf / bowling</label>
+        <!-- Arts & culture -->
+        <input type="checkbox" name="first_date" id="fd12" value="Live music or concert">
+        <label for="fd12" class="emoji-card"><span class="ec-icon">🎶</span>Live music</label>
+        <input type="checkbox" name="first_date" id="fd19" value="Jazz bar">
+        <label for="fd19" class="emoji-card"><span class="ec-icon">🎷</span>Jazz bar</label>
+        <input type="checkbox" name="first_date" id="fd13" value="Art or show">
+        <label for="fd13" class="emoji-card"><span class="ec-icon">🎭</span>Art / show</label>
+        <input type="checkbox" name="first_date" id="fd14" value="Comedy show">
+        <label for="fd14" class="emoji-card"><span class="ec-icon">😂</span>Comedy show</label>
+        <input type="checkbox" name="first_date" id="fd15" value="Bookstore or museum">
+        <label for="fd15" class="emoji-card"><span class="ec-icon">📖</span>Books / museum</label>
+        <!-- Chill & creative -->
+        <input type="checkbox" name="first_date" id="fd16" value="Cook together">
+        <label for="fd16" class="emoji-card"><span class="ec-icon">👨‍🍳</span>Cook together</label>
+        <input type="checkbox" name="first_date" id="fd20" value="Bake together">
+        <label for="fd20" class="emoji-card"><span class="ec-icon">🧁</span>Bake together</label>
+        <input type="checkbox" name="first_date" id="fd17" value="Trying something completely new in the city">
+        <label for="fd17" class="emoji-card"><span class="ec-icon">🗺️</span>Something new</label>
+        <input type="checkbox" name="first_date" id="fd18" value="Open to anything">
+        <label for="fd18" class="emoji-card"><span class="ec-icon">🌀</span>Open to anything</label>
+      </div>
+    </div>
+
+    <!-- 6. Non-negotiables -->
+    <div class="card">
+      <div class="card-num">6</div>
+      <span class="q-label" id="nonnegLabel">Non-negotiables in a partner 🚩</span>
+      <p class="q-hint">Toggle all that apply — add anything extra at the bottom</p>
+
+      <!-- Dating: non-negotiables -->
+      <div class="dating-only">
+        <div class="pill-group" style="margin-bottom: 12px;">
+          <input type="checkbox" name="nonneg" id="nn1" value="Must be ambitious"><label for="nn1">🚀 Must be ambitious</label>
+          <input type="checkbox" name="nonneg" id="nn2" value="Can't be an alcoholic"><label for="nn2">🍷 Can't be an alcoholic</label>
+          <input type="checkbox" name="nonneg" id="nn3" value="Can't be a bad texter"><label for="nn3">📱 Can't be a bad texter</label>
+          <input type="checkbox" name="nonneg" id="nn4" value="Needs to have their life together"><label for="nn4">🧩 Has their life together</label>
+          <input type="checkbox" name="nonneg" id="nn5" value="Must be kind to strangers"><label for="nn5">🤝 Kind to strangers</label>
+          <input type="checkbox" name="nonneg" id="nn6" value="Has to be emotionally available"><label for="nn6">💬 Emotionally available</label>
+          <input type="checkbox" name="nonneg" id="nn7" value="Must have a sense of humor"><label for="nn7">😂 Has a sense of humor</label>
+          <input type="checkbox" name="nonneg" id="nn8" value="Has to be family-oriented"><label for="nn8">👨‍👩‍👧 Family-oriented</label>
+          <input type="checkbox" name="nonneg" id="nn9" value="Can't be a smoker"><label for="nn9">🚭 Can't be a smoker</label>
+          <input type="checkbox" name="nonneg" id="nn10" value="Has to be financially responsible"><label for="nn10">💸 Financially responsible</label>
+          <input type="checkbox" name="nonneg" id="nn11" value="Other"><label for="nn11">✏️ Other</label>
+        </div>
+        <div class="other-reveal" id="nonnegOther">
+          <input type="text" name="nonneg_other" placeholder="Anything else that's a must..." />
+        </div>
+      </div>
+
+      <!-- Friends: friendship dealbreakers -->
+      <div class="friends-only" style="display:none;">
+        <div class="pill-group" style="margin-bottom: 12px;">
+          <input type="checkbox" name="friend_db" id="fdb1" value="Flaky / always cancels"><label for="fdb1">👻 Flaky / always cancels</label>
+          <input type="checkbox" name="friend_db" id="fdb2" value="Bad at communicating"><label for="fdb2">📵 Bad at communicating</label>
+          <input type="checkbox" name="friend_db" id="fdb3" value="Only reaches out when they need something"><label for="fdb3">🫳 One-sided effort</label>
+          <input type="checkbox" name="friend_db" id="fdb4" value="Can't keep a secret"><label for="fdb4">🤐 Can't keep a secret</label>
+          <input type="checkbox" name="friend_db" id="fdb5" value="Too negative / drains your energy"><label for="fdb5">🪫 Energy drain</label>
+          <input type="checkbox" name="friend_db" id="fdb6" value="Doesn't respect boundaries"><label for="fdb6">🚧 Doesn't respect boundaries</label>
+          <input type="checkbox" name="friend_db" id="fdb7" value="Competitive or jealous"><label for="fdb7">😤 Competitive / jealous</label>
+          <input type="checkbox" name="friend_db" id="fdb8" value="Disappears when life gets busy"><label for="fdb8">🌬️ Disappears when busy</label>
+          <input type="checkbox" name="friend_db" id="fdb9" value="Talks but never listens"><label for="fdb9">🙉 Talks but never listens</label>
+          <input type="checkbox" name="friend_db" id="fdb10" value="Other"><label for="fdb10">✏️ Other</label>
+        </div>
+        <div class="other-reveal" id="friendDbOther">
+          <input type="text" name="friend_db_other" placeholder="Anything else that's a dealbreaker..." />
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. Values -->
+    <div class="card">
+      <div class="card-num">7</div>
+      <span class="q-label" id="valuesLabel">What do you care about most in a partner? ❤️</span>
+      <p class="q-hint">Pick up to 3 — be honest with yourself</p>
+
+      <!-- Dating values -->
+      <div class="dating-only">
+        <div class="pill-group">
+          <input type="checkbox" name="partner_values" id="pv1" value="Financial security"><label for="pv1">💰 Financial security</label>
+          <input type="checkbox" name="partner_values" id="pv2" value="Shared interests"><label for="pv2">🎯 Shared interests</label>
+          <input type="checkbox" name="partner_values" id="pv3" value="Similar lifestyle"><label for="pv3">🌿 Similar lifestyle</label>
+          <input type="checkbox" name="partner_values" id="pv4" value="Family match"><label for="pv4">👨‍👩‍👧 Family match</label>
+          <input type="checkbox" name="partner_values" id="pv5" value="Religion match"><label for="pv5">🙏 Religion match</label>
+          <input type="checkbox" name="partner_values" id="pv6" value="Appearance"><label for="pv6">✨ Appearance</label>
+          <input type="checkbox" name="partner_values" id="pv7" value="Emotional connection"><label for="pv7">💬 Emotional connection</label>
+          <input type="checkbox" name="partner_values" id="pv8" value="Ambition"><label for="pv8">🚀 Ambition</label>
+          <input type="checkbox" name="partner_values" id="pv9" value="Other"><label for="pv9">✏️ Other</label>
+        </div>
+        <div class="other-reveal" id="pvOther">
+          <input type="text" name="partner_values_other" placeholder="What else matters most to you?" />
+        </div>
+      </div>
+
+      <!-- Friends values -->
+      <div class="friends-only" style="display:none;">
+        <div class="pill-group">
+          <input type="checkbox" name="friend_values" id="fv2" value="Good sense of humor"><label for="fv2">😂 Good sense of humor</label>
+          <input type="checkbox" name="friend_values" id="fv3" value="They show up when it matters"><label for="fv3">🙌 Shows up when it matters</label>
+          <input type="checkbox" name="friend_values" id="fv4" value="Shared interests"><label for="fv4">🎯 Shared interests</label>
+          <input type="checkbox" name="friend_values" id="fv5" value="Easy to talk to"><label for="fv5">💬 Easy to talk to</label>
+          <input type="checkbox" name="friend_values" id="fv6" value="Low drama"><label for="fv6">😌 Low drama</label>
+          <input type="checkbox" name="friend_values" id="fv7" value="Honest and direct"><label for="fv7">🎯 Honest and direct</label>
+          <input type="checkbox" name="friend_values" id="fv8" value="Good listener"><label for="fv8">👂 Good listener</label>
+          <input type="checkbox" name="friend_values" id="fv9" value="Down for spontaneous plans"><label for="fv9">⚡ Down for spontaneous plans</label>
+          <input type="checkbox" name="friend_values" id="fv10" value="Checks in on you"><label for="fv10">💌 Checks in on you</label>
+          <input type="checkbox" name="friend_values" id="fv11" value="Other"><label for="fv11">✏️ Other</label>
+        </div>
+        <div class="other-reveal" id="fvOther">
+          <input type="text" name="friend_values_other" placeholder="What else matters most to you?" />
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. How quickly do you open up -->
+    <div class="card">
+      <div class="card-num">8</div>
+      <span class="q-label" id="simLabel">How quickly do you open up to new people? 🔓</span>
+      <p class="q-hint">Drag to where you land</p>
+      <div class="slider-wrap">
+        <input type="range" name="similarity" id="simSlider" min="1" max="10" value="5" />
+        <div class="slider-labels">
+          <span>🐢 Takes time</span>
+          <span>⚡ Instant best friends</span>
+        </div>
+        <span class="slider-val" id="simVal">5 / 10</span>
+      </div>
+    </div>
+
+    <!-- 9. Plans vs spontaneous -->
+    <div class="card">
+      <div class="card-num">9</div>
+      <span class="q-label">What kind of friend are you? 📅</span>
+      <p class="q-hint">Pick the one that sounds more like you</p>
+      <div class="slider-wrap">
+        <input type="range" name="alone_time" id="aloneSlider" min="1" max="10" value="5" />
+        <div class="slider-labels">
+          <span>📅 Let's make plans</span>
+          <span>📍 Text me when you're nearby</span>
+        </div>
+        <span class="slider-val" id="aloneVal">5 / 10</span>
+      </div>
+    </div>
+
+    <!-- 10. Phone number -->
+    <div class="card">
+      <div class="card-num">10</div>
+      <span class="q-label">Phone number 📲</span>
+      <p class="q-hint">So we can actually reach you when the time comes</p>
+      <input type="text" name="phone" id="phoneInput" placeholder="e.g. 4155550123" inputmode="numeric" />
+      <div class="phone-error" id="phoneError">Please enter a valid US phone number</div>
+    </div>
+
+    <!-- 11. Preferred language -->
+    <div class="card">
+      <div class="card-num">11</div>
+      <span class="q-label">Preferred language 🗣️</span>
+      <p class="q-hint">What language do you vibe in most?</p>
+      <div class="pill-group">
+        <input type="radio" name="language" id="lang1" value="English"><label for="lang1">🇺🇸 English</label>
+        <input type="radio" name="language" id="lang2" value="Mandarin"><label for="lang2">🇨🇳 Mandarin</label>
+        <input type="radio" name="language" id="lang3" value="Cantonese"><label for="lang3">🫖 Cantonese</label>
+        <input type="radio" name="language" id="lang4" value="Korean"><label for="lang4">🇰🇷 Korean</label>
+      </div>
+    </div>
+
+    <!-- 12. 2 truths 1 lie -->
+    <div class="card">
+      <div class="card-num">12</div>
+      <span class="q-label">2 truths & a lie 🎭</span>
+      <p class="q-hint">We'll use this as an icebreaker if you match with someone — make it good!</p>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div>
+          <label style="font-size: 13px; font-weight: 600; color: #555; margin-bottom: 6px; display: block;">Statement 1</label>
+          <input type="text" name="t2l_1" placeholder="e.g. I've been to 15 countries" />
+        </div>
+        <div>
+          <label style="font-size: 13px; font-weight: 600; color: #555; margin-bottom: 6px; display: block;">Statement 2</label>
+          <input type="text" name="t2l_2" placeholder="e.g. I can speak three languages" />
+        </div>
+        <div>
+          <label style="font-size: 13px; font-weight: 600; color: #555; margin-bottom: 6px; display: block;">Statement 3</label>
+          <input type="text" name="t2l_3" placeholder="e.g. I once met a celebrity at a gas station" />
+        </div>
+        <div class="note-box">
+          🤫 Which one is the lie? Only you know — your match will have to guess!
+        </div>
+      </div>
+    </div>
+
+    <!-- 13. Anything else -->
+    <div class="card">
+      <div class="card-num">13</div>
+      <span class="q-label">Anything else we should know? 💬</span>
+      <p class="q-hint">The floor is yours — anything that didn't fit above, or just want us to know going in</p>
+      <div class="char-wrap">
+        <textarea name="extra" id="extraTa" placeholder="e.g. I'm shy at first but loud once I'm comfortable. I have a dog named Mochi. I work weird hours. Whatever feels relevant..." maxlength="500"></textarea>
+        <span class="char-count" id="extraCount">0/500</span>
+      </div>
+    </div>
+
+      </div> <!-- end form-col -->
+    </div> <!-- end page-layout -->
+
+    <div class="submit-wrap">
+      <button type="submit" class="btn-submit">Submit my profile 💌</button>
+      <p class="fine-print" id="finePrint">Gina and Charles will review all submissions personally. Results may vary. Love is not guaranteed but attempted.</p>
+      <p class="fine-print" style="margin-top: 6px;">Your responses will only be used for matching purposes.</p>
+    </div>
+
+  </form>
+
+  <div class="success-screen" id="successScreen">
+    <span class="success-emoji">💌</span>
+    <h2 class="success-title">You're in the pile!</h2>
+    <p class="success-sub">Gina and Charles have received your profile and are already scheming.<br/><br/>Stay tuned. Your person might be closer than you think. 💘</p>
+  </div>
+
+</div>
+
+<script>
+  let currentMode = 'dating';
+
+  const modeContent = {
+    dating: {
+      tagline: 'to help you date like you\'re <em>21</em> again.',
+      subtitle: 'We\'re tired of watching our friends be single. So we\'re doing something about it. 💅',
+      goalLabel: 'What\'s your relationship goal? 🎯',
+      firstDateLabel: 'Ideal first date 💫',
+      nonnegLabel: 'Non-negotiables in a partner 🚩',
+      valuesLabel: 'What do you care about most in a partner? ❤️',
+      simLabel: 'How similar should your partner be to you? 🪞',
+      simLeft: '🧲 Opposites attract',
+      simRight: '🪞 Basically my twin',
+      aloneLabel: 'How much alone time do you need? 🔋',
+      aloneHint: 'Recharge level — drag to yours',
+      aloneLeft: '🦋 Social butterfly',
+      aloneRight: '🐚 Hermit era',
+      submitLabel: 'Submit my profile 💌',
+      finePrint: 'Gina and Charles will review all submissions personally. Results may vary. Love is not guaranteed but attempted.',
+      successTitle: 'You\'re in the pile!',
+      successSub: 'Gina and Charles have received your profile and are already scheming.<br/><br/>Stay tuned. Your person might be closer than you think. 💘',
+    },
+    friends: {
+      tagline: 'because making friends after <em>25</em> is hard.',
+      subtitle: 'Adulting is funner with good people. 🤝',
+      goalLabel: 'What kind of friend are you looking for? 🤝',
+      firstDateLabel: 'Ideal first hangout 🎉',
+      nonnegLabel: 'Non-negotiables in a friend 🚩',
+      valuesLabel: 'What do you value most in a friendship? 💚',
+      simLabel: 'How quickly do you open up to new people? 🔓',
+      simLeft: '🐢 Takes time',
+      simRight: '⚡ Instant best friends',
+      aloneLabel: 'What kind of friend are you? 📅',
+      aloneHint: 'Pick the one that sounds more like you',
+      aloneLeft: '📅 Let\'s make plans',
+      aloneRight: '📍 Text me when you\'re nearby',
+      submitLabel: 'Submit my profile 🤝',
+      finePrint: 'Gina and Charles will review all submissions personally. Results may vary. Friendship is not guaranteed but attempted.',
+      successTitle: 'You\'re in the mix!',
+      successSub: 'Gina and Charles have received your profile and are already thinking of matches.<br/><br/>Your next best friend might be closer than you think. 🤝',
+    }
+  };
+
+  function setMode(mode) {
+    currentMode = mode;
+    const c = modeContent[mode];
+
+    // Toggle buttons
+    document.getElementById('btnDating').classList.toggle('active', mode === 'dating');
+    document.getElementById('btnFriends').classList.toggle('active', mode === 'friends');
+
+    // Header
+    document.getElementById('headerTagline').innerHTML = c.tagline;
+    document.getElementById('headerSubtitle').textContent = c.subtitle;
+
+    // Swappable labels
+    document.getElementById('goalLabel').textContent = c.goalLabel;
+    document.getElementById('firstDateLabel').textContent = c.firstDateLabel;
+    document.getElementById('nonnegLabel').textContent = c.nonnegLabel;
+    document.getElementById('valuesLabel').textContent = c.valuesLabel;
+    document.getElementById('simLabel').textContent = c.simLabel;
+
+    // Swap slider labels
+    const simLabels = document.getElementById('simSlider').closest('.slider-wrap').querySelectorAll('.slider-labels span');
+    simLabels[0].textContent = c.simLeft;
+    simLabels[1].textContent = c.simRight;
+
+    const aloneCard = document.getElementById('aloneSlider').closest('.card');
+    aloneCard.querySelector('.q-label').textContent = c.aloneLabel;
+    aloneCard.querySelector('.q-hint').textContent = c.aloneHint;
+    const aloneLabels = aloneCard.querySelectorAll('.slider-labels span');
+    aloneLabels[0].textContent = c.aloneLeft;
+    aloneLabels[1].textContent = c.aloneRight;
+
+    // Swap hint text on the nonneg card
+    document.querySelector('#nonnegLabel').closest('.card').querySelector('.q-hint').textContent =
+      mode === 'dating' ? 'Toggle all that apply — add anything extra at the bottom'
+                        : 'Pick your dealbreakers — what ends a friendship for you?';
+
+    // Show/hide correct dating-only / friends-only blocks
+    document.querySelectorAll('.dating-only').forEach(el => el.style.display = mode === 'dating' ? '' : 'none');
+    document.querySelectorAll('.friends-only').forEach(el => el.style.display = mode === 'friends' ? '' : 'none');
+
+    // Clear fields that belong to the mode being hidden
+    if (mode === 'friends') {
+      // Clear dating-specific fields
+      document.querySelectorAll('[name="rel_goal"]').forEach(r => r.checked = false);
+      document.querySelectorAll('[name="nonneg"]').forEach(c => c.checked = false);
+      document.querySelectorAll('[name="partner_values"]').forEach(c => c.checked = false);
+      document.getElementById('nonnegOther').classList.remove('show');
+      document.getElementById('pvOther').classList.remove('show');
+    } else {
+      // Clear friends-specific fields
+      document.querySelectorAll('[name="friend_goal"]').forEach(r => r.checked = false);
+      document.querySelectorAll('[name="friend_db"]').forEach(c => c.checked = false);
+      document.querySelectorAll('[name="friend_values"]').forEach(c => c.checked = false);
+      document.getElementById('friendDbOther').classList.remove('show');
+      document.getElementById('fvOther').classList.remove('show');
+    }
+
+    // Clear all shared fields
+    document.querySelector('[name="name"]').value = '';
+    document.querySelector('[name="age"]').value = '';
+    document.querySelectorAll('[name="vibe"]').forEach(c => c.checked = false);
+    document.querySelector('[name="recent_weekends"]').value = '';
+    document.getElementById('weekendsCount').textContent = '0/400';
+    document.querySelectorAll('[name="sunday"]').forEach(r => r.checked = false);
+    document.querySelectorAll('[name="first_date"]').forEach(c => c.checked = false);
+    document.querySelector('[name="phone"]').value = '';
+    document.querySelectorAll('[name="language"]').forEach(r => r.checked = false);
+    document.querySelector('[name="t2l_1"]').value = '';
+    document.querySelector('[name="t2l_2"]').value = '';
+    document.querySelector('[name="t2l_3"]').value = '';
+    document.querySelector('[name="extra"]').value = '';
+    document.getElementById('extraCount').textContent = '0/500';
+
+    // Reset slider touched state
+    simTouched = false;
+    aloneTouched = false;
+    document.getElementById('simSlider').value = 5;
+    document.getElementById('simVal').textContent = '5 / 10';
+    document.getElementById('aloneSlider').value = 5;
+    document.getElementById('aloneVal').textContent = '5 / 10';
+
+    // Submit & success
+    document.querySelector('.btn-submit').textContent = c.submitLabel;
+    document.getElementById('finePrint').textContent = c.finePrint;
+    document.querySelector('.success-title').textContent = c.successTitle;
+    document.querySelector('.success-sub').innerHTML = c.successSub;
+
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const f = document.getElementById('matchForm');
+    const isDating = currentMode === 'dating';
+    const checks = [
+      f.querySelector('[name="name"]')?.value.trim() && f.querySelector('[name="age"]')?.value.trim(),
+      [...f.querySelectorAll('[name="vibe"]:checked')].length > 0,
+      isDating ? f.querySelector('[name="rel_goal"]:checked') : f.querySelector('[name="friend_goal"]:checked'),
+      f.querySelector('[name="recent_weekends"]')?.value.trim(),
+      [...f.querySelectorAll('[name="first_date"]:checked')].length > 0,
+      isDating ? [...f.querySelectorAll('[name="nonneg"]:checked')].length > 0 : [...f.querySelectorAll('[name="friend_db"]:checked')].length > 0,
+      isDating ? [...f.querySelectorAll('[name="partner_values"]:checked')].length > 0 : [...f.querySelectorAll('[name="friend_values"]:checked')].length > 0,
+      simTouched,
+      aloneTouched,
+      f.querySelector('[name="phone"]')?.value.trim() && isValidUSPhone(f.querySelector('[name="phone"]').value),
+      f.querySelector('[name="language"]:checked'),
+      f.querySelector('[name="t2l_1"]')?.value.trim() && f.querySelector('[name="t2l_2"]')?.value.trim() && f.querySelector('[name="t2l_3"]')?.value.trim(),
+      f.querySelector('[name="extra"]')?.value.trim(),
+    ];
+    const pct = Math.round(checks.filter(Boolean).length / checks.length * 100);
+    document.getElementById('progressFill').style.height = pct + '%';
+    document.getElementById('progressPct').textContent = pct + '%';
+  }
+
+  document.getElementById('matchForm').addEventListener('input', updateProgress);
+  document.getElementById('matchForm').addEventListener('change', updateProgress);
+
+  let simTouched = false, aloneTouched = false;
+
+  document.getElementById('simSlider').addEventListener('input', function() {
+    simTouched = true;
+    document.getElementById('simVal').textContent = this.value + ' / 10';
+    updateProgress();
+  });
+  document.getElementById('aloneSlider').addEventListener('input', function() {
+    aloneTouched = true;
+    document.getElementById('aloneVal').textContent = this.value + ' / 10';
+    updateProgress();
+  });
+
+  document.querySelectorAll('[name="friend_db"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const anyOther = [...document.querySelectorAll('[name="friend_db"]:checked')].some(c => c.value === 'Other');
+      document.getElementById('friendDbOther').classList.toggle('show', anyOther);
+    });
+  });
+
+  document.querySelectorAll('[name="nonneg"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const anyOther = [...document.querySelectorAll('[name="nonneg"]:checked')].some(c => c.value === 'Other');
+      document.getElementById('nonnegOther').classList.toggle('show', anyOther);
+    });
+  });
+
+  document.querySelectorAll('[name="first_date"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const checked = [...document.querySelectorAll('[name="first_date"]:checked')];
+      if (checked.length > 3) { cb.checked = false; }
+    });
+  });
+
+  document.querySelectorAll('[name="friend_values"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const checked = [...document.querySelectorAll('[name="friend_values"]:checked')];
+      if (checked.length > 3) { cb.checked = false; return; }
+      document.getElementById('fvOther').classList.toggle('show', checked.some(c => c.value === 'Other'));
+    });
+  });
+
+  document.querySelectorAll('[name="partner_values"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const checked = [...document.querySelectorAll('[name="partner_values"]:checked')];
+      if (checked.length > 3) { cb.checked = false; return; }
+      document.getElementById('pvOther').classList.toggle('show', checked.some(c => c.value === 'Other'));
+    });
+  });
+
+  function isValidUSPhone(val) {
+    const digits = val.replace(/\D/g, '');
+    return digits.length === 10 || (digits.length === 11 && digits[0] === '1');
+  }
+
+  function formatUSPhone(val) {
+    const digits = val.replace(/\D/g, '').slice(0, 10);
+    if (digits.length <= 3) return digits;
+    if (digits.length <= 6) return digits.slice(0,3) + '-' + digits.slice(3);
+    return digits.slice(0,3) + '-' + digits.slice(3,6) + '-' + digits.slice(6);
+  }
+
+  const phoneInput = document.getElementById('phoneInput');
+  const phoneError = document.getElementById('phoneError');
+
+  phoneInput.addEventListener('input', () => {
+    const raw = phoneInput.value.replace(/\D/g, '').slice(0, 10);
+    phoneInput.value = formatUSPhone(raw);
+    // Clear error while typing
+    phoneInput.classList.remove('invalid');
+    phoneError.classList.remove('show');
+    updateProgress();
+  });
+
+  phoneInput.addEventListener('blur', () => {
+    const valid = !phoneInput.value.trim() || isValidUSPhone(phoneInput.value);
+    phoneInput.classList.toggle('invalid', !valid && phoneInput.value.trim() !== '');
+    phoneError.classList.toggle('show', !valid && phoneInput.value.trim() !== '');
+  });
+
+  [['weekendsTa','weekendsCount'],['extraTa','extraCount']].forEach(([tid, cid]) => {
+    const ta = document.getElementById(tid);
+    const ct = document.getElementById(cid);
+    if (ta && ct) ta.addEventListener('input', () => { ct.textContent = ta.value.length + '/' + ta.maxLength; });
+  });
+
+  document.getElementById('matchForm').addEventListener('submit', e => {
+    e.preventDefault();
+    // Validate phone before submitting
+    const phoneVal = phoneInput.value.trim();
+    if (phoneVal && !isValidUSPhone(phoneVal)) {
+      phoneInput.classList.add('invalid');
+      phoneError.classList.add('show');
+      phoneInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    const emojis = currentMode === 'friends'
+      ? ['🤝','💚','🌟','✨','😊','🫂','💫','🌸','🎉','🤗']
+      : ['💘','💖','💕','💗','❤️','🩷','✨','💫','🌸','🥰'];
+    for (let i = 0; i < 24; i++) setTimeout(() => spawnHeart(emojis), i * 65);
+    setTimeout(() => {
+      document.getElementById('matchForm').style.display = 'none';
+      const s = document.getElementById('successScreen');
+      s.style.display = 'block';
+      s.scrollIntoView({ behavior: 'smooth' });
+    }, 900);
+  });
+
+  function spawnHeart(emojis) {
+    const el = document.createElement('div');
+    el.className = 'heart';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.cssText = `left:${Math.random()*100}vw;bottom:0;font-size:${14+Math.random()*22}px;animation-duration:${1.5+Math.random()*1.5}s`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3200);
+  }
+</script>
+</body>
+</html>
