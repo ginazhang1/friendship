@@ -932,6 +932,9 @@
     if (ta && ct) ta.addEventListener('input', () => { ct.textContent = ta.value.length + '/' + ta.maxLength; });
   });
 
+  // ── REPLACE THIS WITH YOUR APPS SCRIPT WEB APP URL ──
+  const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycby66jtVvrp9TLKsVDynqrTSxH4yepQCe_OB6jDZS2yILTldob2lDbOM-pBsmZH15Qgc8A/exec';
+
   document.getElementById('matchForm').addEventListener('submit', e => {
     e.preventDefault();
     // Validate phone before submitting
@@ -942,6 +945,44 @@
       phoneInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
+
+    // Collect all form data
+    const f = document.getElementById('matchForm');
+    const data = {
+      timestamp: new Date().toISOString(),
+      mode: currentMode,
+      name: f.querySelector('[name="name"]')?.value.trim(),
+      age: f.querySelector('[name="age"]')?.value.trim(),
+      phone: f.querySelector('[name="phone"]')?.value.trim(),
+      vibe: [...f.querySelectorAll('[name="vibe"]:checked')].map(c => c.value).join(', '),
+      rel_goal: f.querySelector('[name="rel_goal"]:checked')?.value || '',
+      friend_goal: f.querySelector('[name="friend_goal"]:checked')?.value || '',
+      recent_weekends: f.querySelector('[name="recent_weekends"]')?.value.trim(),
+      sunday: f.querySelector('[name="sunday"]:checked')?.value || '',
+      first_date: [...f.querySelectorAll('[name="first_date"]:checked')].map(c => c.value).join(', '),
+      nonneg: [...f.querySelectorAll('[name="nonneg"]:checked')].map(c => c.value).join(', '),
+      partner_values: [...f.querySelectorAll('[name="partner_values"]:checked')].map(c => c.value).join(', '),
+      friend_db: [...f.querySelectorAll('[name="friend_db"]:checked')].map(c => c.value).join(', '),
+      friend_values: [...f.querySelectorAll('[name="friend_values"]:checked')].map(c => c.value).join(', '),
+      sim_score: document.getElementById('simSlider')?.value,
+      alone_score: document.getElementById('aloneSlider')?.value,
+      language: f.querySelector('[name="language"]:checked')?.value || '',
+      t2l_1: f.querySelector('[name="t2l_1"]')?.value.trim(),
+      t2l_2: f.querySelector('[name="t2l_2"]')?.value.trim(),
+      t2l_3: f.querySelector('[name="t2l_3"]')?.value.trim(),
+      extra: f.querySelector('[name="extra"]')?.value.trim(),
+    };
+
+    // Send to Google Sheets (fire and forget — don't block the UI)
+    if (GOOGLE_SHEET_URL !== 'YOUR_APPS_SCRIPT_URL_HERE') {
+      fetch(GOOGLE_SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }).catch(err => console.warn('Sheet submission failed:', err));
+    }
+
     const emojis = currentMode === 'friends'
       ? ['🤝','💚','🌟','✨','😊','🫂','💫','🌸','🎉','🤗']
       : ['💘','💖','💕','💗','❤️','🩷','✨','💫','🌸','🥰'];
