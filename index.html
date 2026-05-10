@@ -811,6 +811,14 @@
     document.getElementById('aloneSlider').value = 5;
     document.getElementById('aloneVal').textContent = '5 / 10';
 
+    // If success screen is showing, hide it and show the form
+    const successScreen = document.getElementById('successScreen');
+    if (successScreen.style.display === 'block') {
+      successScreen.style.display = 'none';
+      document.getElementById('matchForm').style.display = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     // Submit & success
     document.querySelector('.btn-submit').textContent = c.submitLabel;
     document.getElementById('finePrint').textContent = c.finePrint;
@@ -949,7 +957,7 @@
     // Collect all form data
     const f = document.getElementById('matchForm');
     const data = {
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles', month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }),
       mode: currentMode,
       name: f.querySelector('[name="name"]')?.value.trim(),
       age: f.querySelector('[name="age"]')?.value.trim(),
@@ -958,7 +966,6 @@
       rel_goal: f.querySelector('[name="rel_goal"]:checked')?.value || '',
       friend_goal: f.querySelector('[name="friend_goal"]:checked')?.value || '',
       recent_weekends: f.querySelector('[name="recent_weekends"]')?.value.trim(),
-      sunday: f.querySelector('[name="sunday"]:checked')?.value || '',
       first_date: [...f.querySelectorAll('[name="first_date"]:checked')].map(c => c.value).join(', '),
       nonneg: [...f.querySelectorAll('[name="nonneg"]:checked')].map(c => c.value).join(', '),
       partner_values: [...f.querySelectorAll('[name="partner_values"]:checked')].map(c => c.value).join(', '),
